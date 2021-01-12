@@ -1,0 +1,12 @@
+{
+    "name": "中文（中国）",
+    "nameShort": "中文",
+    "textDirection": "ltr",
+    "strings": {
+        "countedTo": "我已经数到{count}！",
+        "divisibleBy10": "它可以被10整除！",
+        "divisibleBy5": "不能被10整除，但是可以被5整除！",
+        "nothing": "还没有……",
+        "countingUp": "数数{0}"
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "name": "العربية (مصر)",
+    "nameShort": "العربية",
+    "textDirection": "rtl",
+    "strings": {
+        "countedTo": "لقد عدت إلى {count}!",
+        "divisibleBy10": "إنها قابلة للقسمة على ١٠!",
+        "divisibleBy5": "لا يقبل القسمة على ١٠ ، لكنه يقبل القسمة على ٥!",
+        "nothing": "لا شيء حتى الان...",
+        "countingUp": "العد حتى {0}"
+    }
+}

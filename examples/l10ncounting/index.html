@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<!-- Serve this example in the main subElements directory -->
+<html>
+    <head>
+        <title>Example</title>
+        <meta charset="utf-8">
+        <script src="https://cdn.subnodal.com/lib/submodules.min.js"></script>
+        <link rel="stylesheet" href="style.css" />
+        <script src="/subelements.js"></script>
+        <script src="/core.js"></script>
+        <script src="/evaluator.js"></script>
+        <script src="/l10n.js"></script>
+        <script src="/requests.js"></script>
+        <script src="script.js"></script>
+    </head>
+    <body hidden>
+        <div class="languages">
+            <s-each itervar="j" valuevar="code" in="l10n.getLanguageResourceCodes()">
+                <s-if condition="{{ j > 0 }}">
+                    <span>·</span>
+                </s-if>
+                <a class="{{ code == l10n.getLocaleCode() ? 'selected' : '' }}" href="?lang={{ code }}">{{ l10n.getLocaleName(code, true) }}</a>
+            </s-each>
+        </div>
+        <p class="{{ i % 2 == 0 ? 'red' : '' }}" translate>countedTo|count:{{ i }}</p>
+        <s-if condition="i % 10 == 0">
+            <p translate>divisibleBy10</p>
+        </s-if>
+        <s-elseif condition="i % 5 == 0">
+            <p translate>divisibleBy5</p>
+        </s-elseif>
+        <s-else>
+            <p translate>nothing</p>
+        </s-else>
+        <s-for var="j" start="0" stop="i % 10">
+            <s-set var="k" value="j + 1"></s-set>
+            <p translate>countingUp|{{ k }}</p>
+        </s-for>
+    </body>
+</html>

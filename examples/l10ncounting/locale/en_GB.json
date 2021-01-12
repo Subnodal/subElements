@@ -1,0 +1,12 @@
+{
+    "name": "English (United Kingdom)",
+    "nameShort": "English",
+    "textDirection": "ltr",
+    "strings": {
+        "countedTo": "I've counted to {count}!",
+        "divisibleBy10": "It's divisible by 10!",
+        "divisibleBy5": "Not divisible by 10, but it's divisble by 5!",
+        "nothing": "Nothing yet...",
+        "countingUp": "Counting up {0}"
+    }
+}

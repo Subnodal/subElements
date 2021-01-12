@@ -1,0 +1,14 @@
+div.languages {
+    margin: -10px;
+    padding: 10px;
+    background-color: lightblue;
+    color: black;
+}
+
+a.selected {
+    font-weight: bold;
+}
+
+p.red {
+    color: red;
+}
