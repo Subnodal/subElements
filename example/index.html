@@ -10,5 +10,11 @@
     </head>
     <body>
         <p class="{{ i % 2 == 0 ? 'red' : '' }}">I've counted to {{ i }}!</p>
+        <s-if condition="{{ i % 10 == 0 }}">
+            <p>It's divisible by 10!</p>
+        </s-if>
+        <s-for var="j" start="0" stop="10">
+            <p>Test {{ j }}</p>
+        </s-for>
     </body>
 </html>
