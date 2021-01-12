@@ -1,10 +1,20 @@
 namespace("com.subnodal.subelements.evaluator", function(exports) {
+    var lastEvaluatedCondition = true;
+
+    function evalWithScope(expression, scope = {...window}) {
+        with (scope) {
+            return eval(expression);
+        }
+    }
+
+    exports.evaluateExpression = function(expression, scope = {...window}) {
+        return expression.replace(/{{(.*?)}}/g, function(a, b) {
+            return evalWithScope(b, scope);
+        });
+    }
+
     exports.evaluateTree = function(rootNode = document.body, scopeVariables = {...window}) {
         var renderChildren = true;
-
-        // if (scopeVariables.j) {
-        //     console.log(scopeVariables.j);
-        // }
 
         if (rootNode.nodeType == Node.TEXT_NODE) {
             if (rootNode.s_textContent != undefined && rootNode.textContent != rootNode.s_textContent) {
@@ -14,13 +24,13 @@ namespace("com.subnodal.subelements.evaluator", function(exports) {
             }
 
             if (rootNode.textContent.match(/{{(.*?)}}/g)) {
-                rootNode.textContent = rootNode.textContent.replace(/{{(.*?)}}/g, function(a, b) {
-                    with (scopeVariables) {
-                        return eval(b);
-                    }
-                });
+                rootNode.textContent = exports.evaluateExpression(rootNode.textContent, scopeVariables);
             }
         } else if (rootNode.nodeType != Node.COMMENT_NODE) {
+            if (rootNode.getAttribute("s-ignore") == "yes" || rootNode.getAttribute("s-ignore") == "") {
+                return;
+            }
+
             for (var i = 0; i < rootNode.attributes.length; i++) {
                 var attribute = rootNode.attributes[i];
 
@@ -31,11 +41,7 @@ namespace("com.subnodal.subelements.evaluator", function(exports) {
                 }
 
                 if (attribute.value.match(/{{(.*?)}}/g)) {
-                    attribute.value = attribute.value.replace(/{{(.*?)}}/g, function(a, b) {
-                        with (scopeVariables) {
-                            return eval(b);
-                        }
-                    });
+                    attribute.value = exports.evaluateExpression(attribute.value, scopeVariables);
                 }
             }
 
@@ -48,6 +54,37 @@ namespace("com.subnodal.subelements.evaluator", function(exports) {
 
                 if (rootNode.getAttribute("condition") == "true") {
                     rootNode.hidden = false;
+                    lastEvaluatedCondition = true;
+                    renderChildren = true;
+                } else {
+                    rootNode.hidden = true;
+                    lastEvaluatedCondition = false;
+                    renderChildren = false;
+                }
+            } else if (rootNode.tagName == "S-ELSEIF") {
+                var condition = rootNode.getAttribute("condition");
+
+                if (condition == null) {
+                    condition = "false";
+                }
+
+                if (!lastEvaluatedCondition) {
+                    if (rootNode.getAttribute("condition") == "true") {
+                        rootNode.hidden = false;
+                        lastEvaluatedCondition = true;
+                        renderChildren = true;
+                    } else {
+                        rootNode.hidden = true;
+                        lastEvaluatedCondition = false;
+                        renderChildren = false;
+                    }
+                } else {
+                    rootNode.hidden = true;
+                    renderChildren = false;
+                }
+            } else if (rootNode.tagName == "S-ELSE") {
+                if (!lastEvaluatedCondition) {
+                    rootNode.hidden = false;
                     renderChildren = true;
                 } else {
                     rootNode.hidden = true;
@@ -58,11 +95,21 @@ namespace("com.subnodal.subelements.evaluator", function(exports) {
                     rootNode.s_innerHTML = rootNode.innerHTML;
                 }
 
+                if (
+                    rootNode.s_start != exports.evaluateExpression(rootNode.getAttribute("start") || "", scopeVariables) ||
+                    rootNode.s_stop != exports.evaluateExpression(rootNode.getAttribute("stop") || "", scopeVariables) ||
+                    rootNode.s_step != exports.evaluateExpression(rootNode.getAttribute("step") || "", scopeVariables)
+                ) {
+                    rootNode.s_start = exports.evaluateExpression(rootNode.getAttribute("start") || "", scopeVariables);
+                    rootNode.s_stop = exports.evaluateExpression(rootNode.getAttribute("stop") || "", scopeVariables);
+                    rootNode.s_step = exports.evaluateExpression(rootNode.getAttribute("step") || "", scopeVariables);
+                }
+
                 rootNode.innerHTML = "";
 
                 renderChildren = false;
 
-                for (var i = Number(rootNode.getAttribute("start")); i < Number(rootNode.getAttribute("stop")); i += rootNode.getAttribute("step") || 1) {
+                for (var i = Number(rootNode.s_start); i < Number(rootNode.s_stop); i += Number(rootNode.s_step) || 1) {
                     if (rootNode.getAttribute("var")) {
                         scopeVariables[rootNode.getAttribute("var")] = i;
 
@@ -73,6 +120,8 @@ namespace("com.subnodal.subelements.evaluator", function(exports) {
                         }
                     }
                 }
+            } else if (rootNode.tagName == "S-SET") {
+                scopeVariables[rootNode.getAttribute("var")] = exports.evaluateExpression(rootNode.getAttribute("value") || "", scopeVariables);
             }
         }
 

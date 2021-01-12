@@ -13,8 +13,15 @@
         <s-if condition="{{ i % 10 == 0 }}">
             <p>It's divisible by 10!</p>
         </s-if>
-        <s-for var="j" start="0" stop="10">
-            <p>Test {{ j }}</p>
+        <s-elseif condition="{{ i % 5 == 0}}">
+            <p>Not divisible by 10, but it's divisble by 5!</p>
+        </s-elseif>
+        <s-else>
+            <p>Nothing yet...</p>
+        </s-else>
+        <s-for var="j" start="0" stop="{{ i % 10 }}">
+            <s-set var="k" value="{{ j + 1 }}"></s-set>
+            <p>Counting up {{ k }}</p>
         </s-for>
     </body>
 </html>
