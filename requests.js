@@ -1,3 +1,12 @@
+/*
+    subElements
+
+    Copyright (C) Subnodal Technologies. All Rights Reserved.
+
+    https://subnodal.com
+    Licenced by the Subnodal Open-Source Licence, which can be found at LICENCE.md.
+*/
+
 namespace("com.subnodal.subelements.requests", function(exports) {
     exports.make = function(method, url) {
         return new Promise(function(resolve, reject) {

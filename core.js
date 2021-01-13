@@ -1,3 +1,12 @@
+/*
+    subElements
+
+    Copyright (C) Subnodal Technologies. All Rights Reserved.
+
+    https://subnodal.com
+    Licenced by the Subnodal Open-Source Licence, which can be found at LICENCE.md.
+*/
+
 namespace("com.subnodal.subelements.core", function(exports) {
     exports.parameter = function(key) {
         return decodeURIComponent((new RegExp("[?|&]" + key + "=" + "([^&;]+?)(&|#|;|$)").exec(location.search) || [null, ""])[1].replace(/\+/g, "%20")) || null;
