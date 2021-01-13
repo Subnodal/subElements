@@ -1,5 +1,6 @@
 namespace("com.subnodal.subelements.evaluator", function(exports) {
     var l10n = require("com.subnodal.subelements.l10n");
+    var requests = require("com.subnodal.subelements.requests");
 
     var lastEvaluatedCondition = true;
 
@@ -77,6 +78,87 @@ namespace("com.subnodal.subelements.evaluator", function(exports) {
 
                 if (attribute.value.match(/{{(.*?)}}/g)) {
                     attribute.value = exports.evaluateExpression(attribute.value, scopeVariables);
+                }
+            }
+
+            if (rootNode.getAttribute("s-import")) {
+                scopeVariables[rootNode.getAttribute("s-error")] = null;
+
+                requests.get(rootNode.getAttribute("s-import")).then(function(data) {
+                    rootNode.innerHTML = data;
+                
+                    scopeVariables[rootNode.getAttribute("s-status")] = status;
+
+                    setTimeout(function() {
+                       exports.evaluateTree(rootNode, scopeVariables, translate); 
+                    });
+                }).catch(function(error) {
+                    if (!(rootNode.getAttribute("s-error") || rootNode.getAttribute("s-status"))) {
+                        console.error(`Received uncaught error when importing: ${error.code} ${error.message}`);
+                    }
+
+                    scopeVariables[rootNode.getAttribute("s-status")] = error.code;
+                    scopeVariables[rootNode.getAttribute("s-error")] = error.message;
+
+                    setTimeout(function() {
+                       exports.evaluateTree(rootNode, scopeVariables, translate); 
+                    });
+                });
+
+                rootNode.removeAttribute("s-import");
+
+                if (rootNode.getAttribute("s-status")) {
+                    scopeVariables[rootNode.getAttribute("s-status")] = 0;
+                } else {
+                    renderChildren = false;
+                }
+            }
+
+            if (rootNode.getAttribute("s-request")) {
+                scopeVariables[rootNode.getAttribute("s-error")] = null;
+
+                requests.get(rootNode.getAttribute("s-request")).then(function(data, status) {
+                    if (rootNode.getAttribute("s-as") == "json") {
+                        try {
+                            scopeVariables[rootNode.getAttribute("s-response")] = JSON.parse(data);
+                        } catch (e) {
+                            if (rootNode.getAttribute("s-error") || rootNode.getAttribute("s-status")) {
+                                scopeVariables[rootNode.getAttribute("s-error")] = {
+                                    code: status,
+                                    message: "Syntax error when parsing JSON"
+                                };
+                            } else {
+                                console.error(`Received uncaught error when making request: ${status} Syntax error when parsing JSON`);
+                            }
+                        }
+                    } else {
+                        scopeVariables[requestVariable] = data;
+                    }
+
+                    scopeVariables[rootNode.getAttribute("s-status")] = status;
+
+                    setTimeout(function() {
+                       exports.evaluateTree(rootNode, scopeVariables, translate); 
+                    });
+                }).catch(function(error) {
+                    if (!(rootNode.getAttribute("s-error") || rootNode.getAttribute("s-status"))) {
+                        console.error(`Received uncaught error when making request: ${error.code} ${error.message}`);
+                    }
+
+                    scopeVariables[rootNode.getAttribute("s-status")] = error.code;
+                    scopeVariables[rootNode.getAttribute("s-error")] = error.message;
+
+                    setTimeout(function() {
+                       exports.evaluateTree(rootNode, scopeVariables, translate); 
+                    });
+                });
+
+                rootNode.removeAttribute("s-request");
+
+                if (rootNode.getAttribute("s-status")) {
+                    scopeVariables[rootNode.getAttribute("s-status")] = 0;
+                } else {
+                    renderChildren = false;
                 }
             }
 

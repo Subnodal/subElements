@@ -1,0 +1,17 @@
+{
+    "username": "TestUser123",
+    "devices": [
+        {
+            "hostname": "TestUser's Phone",
+            "type": "phone"
+        },
+        {
+            "hostname": "TestUser's Laptop",
+            "type": "laptop"
+        },
+        {
+            "hostname": "TestUser's Smart Fridge",
+            "type": "other"
+        }
+    ]
+}

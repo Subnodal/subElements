@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<!-- Serve this example in the main subElements directory -->
+<html>
+    <head>
+        <title>Importing Example</title>
+        <meta charset="utf-8">
+        <script src="https://cdn.subnodal.com/lib/submodules.min.js"></script>
+        <script src="/subelements.js"></script>
+        <script src="/core.js"></script>
+        <script src="/evaluator.js"></script>
+        <script src="/l10n.js"></script>
+        <script src="/requests.js"></script>
+        <script src="script.js"></script>
+    </head>
+    <body hidden>
+        <div s-import="a.html"></div>
+        <div s-import="b.html" s-status="status">
+            <s-if condition="{{ status == 404 }}">
+                <p>Looks like b.html doesn't exist!</p>
+            </s-if>
+            <s-else>
+                <p>Loading... {{ status }}</p>
+            </s-else>
+        </div>
+        <hr>
+        <div s-request="data.json" s-as="json" s-response="data">
+            <s-if condition="{{ status != 0 }}">
+                <p>Hello, <strong>{{ data.username }}</strong>!</p>
+                <ul>
+                    <s-for var="i" start="0" stop="data.devices.length">
+                        <s-set var="device" value="data.devices[i]"></s-set>
+                        <li>
+                            <strong>{{ device.hostname }}</strong>
+                            <s-if condition="{{ device.type == 'phone' }}">(Phone)</s-if>
+                            <s-elseif condition="{{ device.type == 'laptop' }}">(Laptop)</s-elseif>
+                            <s-else>(Unknown)</s-else>
+                        </li>
+                    </s-for>
+                </ul>
+            </s-if>
+        </div>
+    </body>
+</html>

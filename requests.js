@@ -31,7 +31,7 @@ namespace("com.subnodal.subelements.requests", function(exports) {
                 } catch (e) {
                     if (e instanceof SyntaxError) {
                         reject({
-                            code: 200,
+                            code: status,
                             message: "Syntax error when parsing JSON"
                         });
                     } else {
