@@ -1,0 +1,10 @@
+{
+    "identifier": "com.subnodal.subelements",
+    "modules": [
+        "subelements.js",
+        "core.js",
+        "evaluator.js",
+        "l10n.js",
+        "requests.js"
+    ]
+}
