@@ -31,6 +31,8 @@ namespace("com.subnodal.subelements.evaluator", function(exports) {
         document.body.setAttribute("lang", l10n.getLocaleCode().length > 5 ? l10n.getLocaleCode().replace(/_/g, "-") : l10n.getLocaleCode().substring(0, 2));
         document.body.setAttribute("dir", l10n.getLocaleTextDirection());
 
+        rootNode.scope = scopeVariables;
+
         if (rootNode.nodeType == Node.TEXT_NODE) {
             if (rootNode.s_textContent != undefined && rootNode.textContent != rootNode.s_textContent && rootNode.textContent) {
                 rootNode.textContent = rootNode.s_textContent;
