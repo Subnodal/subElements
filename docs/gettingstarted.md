@@ -11,7 +11,7 @@ First things first, we'll need to create a new HTML file. Create a file named
 <!DOCTYPE html>
 <html>
     <head>
-        <title>My First App</html>
+        <title>My First App</title>
         <meta charset="utf-8">
         <script src="https://cdn.subnodal.com/lib/subelements.min.js"></script>
         <script src="script.js"></script>
