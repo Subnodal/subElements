@@ -110,17 +110,13 @@ namespace("com.subnodal.subelements.l10n", function(exports) {
             var foundTranslation = null;
 
             if (typeof(translatedString) == "object") {
-                for (var rule in rules) {
+                for (var rule in translatedString) {
                     var ruleTemplate = rule;
 
                     for (var argument in arguments) {
                         var argumentReplacement = arguments[argument];
 
-                        if (formatValues) {
-                            argumentReplacement = exports.formatValue(argumentReplacement, formatValueOptions, localeCode);
-                        }
-
-                        argumentReplacement = argumentReplacement
+                        argumentReplacement = String(argumentReplacement)
                             .replace(/\\/g, "\\\\")
                             .replace(/`/g, "\\`")
                         ;
@@ -128,7 +124,7 @@ namespace("com.subnodal.subelements.l10n", function(exports) {
                         rule = rule.replace(new RegExp("\\{" + argument + "\\}", "g"), "`" + argumentReplacement + "`");
 
                         if (eval(rule)) {
-                            foundTranslation = rules[ruleTemplate];
+                            foundTranslation = translatedString[ruleTemplate];
                         }
                     }
                 }

@@ -17,6 +17,7 @@
                 <a class="{{ code == l10n.getLocaleCode() ? 'selected' : '' }}" href="?lang={{ code }}">{{ l10n.getLocaleName(code, true) }}</a>
             </s-each>
         </div>
+        <p>{{ l10n.translate("countResults", {count: i % 10}) }}</p>
         <p class="{{ i % 2 == 0 ? 'red' : '' }}" translate>countedTo|count:{{ i }}</p>
         <s-if condition="i % 10 == 0">
             <p translate>divisibleBy10</p>

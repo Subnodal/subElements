@@ -7,6 +7,10 @@
         "divisibleBy10": "C'est divisible par 10 !",
         "divisibleBy5": "Non divisible par 10, mais il est divisible par 5 !",
         "nothing": "Rien pour le moment ...",
-        "countingUp": "Compter {0}"
+        "countingUp": "Compter {0}",
+        "countResults": {
+            "{count} == 1": "1 résultat",
+            "{count} != 1": "{count} résultats"
+        }
     }
 }

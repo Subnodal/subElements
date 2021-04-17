@@ -7,6 +7,11 @@
         "divisibleBy10": "إنها قابلة للقسمة على ١٠!",
         "divisibleBy5": "لا يقبل القسمة على ١٠ ، لكنه يقبل القسمة على ٥!",
         "nothing": "لا شيء حتى الان...",
-        "countingUp": "العد حتى {0}"
+        "countingUp": "العد حتى {0}",
+        "countResults": {
+            "{count} == 1": "نتيجة واحدة",
+            "{count} == 2": "٢ النتائج",
+            "Number({count}) < 1 || Number({count}) > 2": "{count} نتائج"
+        }
     }
 }
