@@ -59,7 +59,7 @@ namespace("com.subnodal.subelements.l10n", function(exports) {
         if (typeof(data) == "number") {
             return Number(data).toLocaleString((localeCode || DEFAULT_FORMATTING_LOCALE).replace(/_/g, "-"), options);
         } else if (data instanceof Date) {
-            return data.toLocaleString((localeCode || DEFAULT_FORMATTING_LOCALE, options)).replace(/_/g, "-");
+            return data.toLocaleString((localeCode || DEFAULT_FORMATTING_LOCALE).replace(/_/g, "-"), options);
         } else {
             return data;
         }
