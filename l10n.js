@@ -122,10 +122,10 @@ namespace("com.subnodal.subelements.l10n", function(exports) {
                         ;
 
                         rule = rule.replace(new RegExp("\\{" + argument + "\\}", "g"), "`" + argumentReplacement + "`");
+                    }
 
-                        if (eval(rule)) {
-                            foundTranslation = translatedString[ruleTemplate];
-                        }
+                    if (eval(rule)) {
+                        foundTranslation = translatedString[ruleTemplate];
                     }
                 }
             } else {

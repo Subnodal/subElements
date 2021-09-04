@@ -3,6 +3,7 @@
     "modules": [
         "subelements.js",
         "core.js",
+        "elements.js",
         "evaluator.js",
         "l10n.js",
         "requests.js"

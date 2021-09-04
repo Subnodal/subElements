@@ -8,10 +8,9 @@
 */
 
 namespace("com.subnodal.subelements.evaluator", function(exports) {
+    var elements = require("com.subnodal.subelements.elements");
     var l10n = require("com.subnodal.subelements.l10n");
     var requests = require("com.subnodal.subelements.requests");
-
-    var lastEvaluatedCondition = true;
 
     function evalWithScope(expression, scope = {...window}) {
         with (scope) {
@@ -174,36 +173,35 @@ namespace("com.subnodal.subelements.evaluator", function(exports) {
             }
 
             if (rootNode.tagName == "S-IF") {
-                var condition = rootNode.getAttribute("condition");
+                var condition = evalWithScope(rootNode.getAttribute("condition"));
 
                 if (condition == null) {
-                    condition = "false";
+                    condition = false;
                 }
 
-                if (condition == "true") {
+                if (condition == true) {
                     rootNode.hidden = false;
-                    lastEvaluatedCondition = true;
                     renderChildren = true;
                 } else {
                     rootNode.hidden = true;
-                    lastEvaluatedCondition = false;
                     renderChildren = false;
                 }
             } else if (rootNode.tagName == "S-ELSEIF") {
                 var condition = evalWithScope(rootNode.getAttribute("condition"));
 
                 if (condition == null) {
-                    condition = "false";
+                    condition = false;
                 }
 
-                if (!lastEvaluatedCondition) {
-                    if (condition == "true") {
+                if (
+                    elements.findPreviousOfType(rootNode, "s-if, s-elseif") != null &&
+                    !evalWithScope(elements.findPreviousOfType(rootNode, "s-if, s-elseif").getAttribute("condition"))
+                ) {
+                    if (condition == true) {
                         rootNode.hidden = false;
-                        lastEvaluatedCondition = true;
                         renderChildren = true;
                     } else {
                         rootNode.hidden = true;
-                        lastEvaluatedCondition = false;
                         renderChildren = false;
                     }
                 } else {
@@ -211,7 +209,10 @@ namespace("com.subnodal.subelements.evaluator", function(exports) {
                     renderChildren = false;
                 }
             } else if (rootNode.tagName == "S-ELSE") {
-                if (!lastEvaluatedCondition) {
+                if (
+                    elements.findPreviousOfType(rootNode, "s-if, s-elseif") != null &&
+                    !evalWithScope(elements.findPreviousOfType(rootNode, "s-if, s-elseif").getAttribute("condition"))
+                ) {
                     rootNode.hidden = false;
                     renderChildren = true;
                 } else {
