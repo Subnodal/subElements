@@ -1,6 +1,6 @@
 # Getting Started
 Welcome to subElements! subElements is a framework which enables you to quickly
-write your own web platforms iwth ease. We'll guide you through the steps to
+write your own web platforms with ease. We'll guide you through the steps to
 make your first app below!
 
 ## Getting the HTML ready
