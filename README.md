@@ -13,7 +13,7 @@ yourself):
 ```
 
 Check out our tutorial on using subElements with our
-[Getting Started](docs/gettingstarted.md) guide!
+[Getting Started](docs/en/gettingstarted.md) guide!
 
 ## Building
 To build subElements, you must have
