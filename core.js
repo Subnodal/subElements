@@ -8,8 +8,8 @@
 */
 
 namespace("com.subnodal.subelements.core", function(exports) {
-    exports.parameter = function(key) {
-        return decodeURIComponent((new RegExp("[?|&]" + key + "=" + "([^&;]+?)(&|#|;|$)").exec(location.search) || [null, ""])[1].replace(/\+/g, "%20")) || null;
+    exports.parameter = function(key, url = window.location.href) {
+        return decodeURIComponent((new RegExp(`[?|&]${key}=([^&;]+?)(&|#|;|$)`).exec(new URL(url).search) || [null, ""])[1].replace(/\+/g, "%20")) || null;
     };
 
     exports.generateKey = function(length = 16, digits = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_") {
