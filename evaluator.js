@@ -292,15 +292,21 @@ namespace("com.subnodal.subelements.evaluator", function(exports) {
             }
 
             if (rootNode.hasAttribute("s-defer")) {
-                var deferredChildren = [...rootNode.childNodes].map((element) => element.cloneNode(true));
+                var deferredSelf = rootNode.cloneNode(true);
 
-                if (renderChildren) {
-                    for (var i = 0; i < deferredChildren.length; i++) {
-                        exports.evaluateTree(deferredChildren[i], scopeVariables);
+                for (var key in rootNode) {
+                    if (rootNode.hasOwnProperty(key)) {
+                        deferredSelf[key] = rootNode[key];
                     }
                 }
 
-                rootNode.replaceChildren(...deferredChildren);
+                if (renderChildren) {
+                    for (var i = 0; i < deferredSelf.childNodes.length; i++) {
+                        exports.evaluateTree(deferredSelf.childNodes[i], scopeVariables);
+                    }
+                }
+
+                rootNode.parentElement.replaceChild(deferredSelf, rootNode);
 
                 return;
             }
