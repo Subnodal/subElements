@@ -10,7 +10,7 @@
     </head>
     <body hidden>
         <div class="languages">
-            <s-each itervar="j" valuevar="code" in="l10n.getLanguageResourceCodes()">
+            <s-each itervar="j" valuevar="code" in="l10n.getLanguageResourceCodes()" s-defer="true">
                 <s-if condition="{{ j > 0 }}">
                     <span>·</span>
                 </s-if>

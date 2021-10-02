@@ -290,6 +290,26 @@ namespace("com.subnodal.subelements.evaluator", function(exports) {
             } else if (rootNode.tagName == "S-SET") {
                 scopeVariables[rootNode.getAttribute("var")] = evalWithScope(rootNode.getAttribute("value") || "", scopeVariables);
             }
+
+            if (rootNode.hasAttribute("s-defer")) {
+                var deferredSelf = rootNode.cloneNode(true);
+
+                for (var key in rootNode) {
+                    if (rootNode.hasOwnProperty(key)) {
+                        deferredSelf[key] = rootNode[key];
+                    }
+                }
+
+                if (renderChildren) {
+                    for (var i = 0; i < deferredSelf.childNodes.length; i++) {
+                        exports.evaluateTree(deferredSelf.childNodes[i], scopeVariables);
+                    }
+                }
+
+                rootNode.parentElement.replaceChild(deferredSelf, rootNode);
+
+                return;
+            }
         }
 
         if (renderChildren) {
