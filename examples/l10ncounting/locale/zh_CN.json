@@ -8,6 +8,6 @@
         "divisibleBy5": "不能被10整除，但是可以被5整除！",
         "nothing": "还没有……",
         "countingUp": "数数{0}",
-        "countResults": "{0}结果"
+        "countResults": "{count}结果"
     }
 }

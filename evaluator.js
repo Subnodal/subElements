@@ -257,7 +257,7 @@ namespace("com.subnodal.subelements.evaluator", function(exports) {
                     rootNode.s_innerHTML = rootNode.innerHTML;
                 }
 
-                if (rootNode.s_in != evalWithScope(rootNode.getAttribute("in") || "", scopeVariables)) {
+                if (rootNode.s_in != evalWithScope(rootNode.getAttribute("in") || "", scopeVariables) || !(rootNode.s_in instanceof Object)) {
                     rootNode.s_in = evalWithScope(rootNode.getAttribute("in") || "", scopeVariables);
                 }
 
