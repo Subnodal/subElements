@@ -33,6 +33,10 @@ namespace("com.subnodal.subelements.elements", function(exports) {
             }
  
             element = element.parentNode;
+
+            if (!(element instanceof Element)) {
+                return null;
+            }
         }
  
         return null;
