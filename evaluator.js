@@ -257,7 +257,7 @@ namespace("com.subnodal.subelements.evaluator", function(exports) {
                     rootNode.s_innerHTML = rootNode.innerHTML;
                 }
 
-                if (rootNode.s_in != evalWithScope(rootNode.getAttribute("in") || "", scopeVariables) || !(rootNode.s_in instanceof Object)) {
+                if (rootNode.s_in != evalWithScope(rootNode.getAttribute("in") || "", scopeVariables)) {
                     rootNode.s_in = evalWithScope(rootNode.getAttribute("in") || "", scopeVariables);
                 }
 
@@ -266,7 +266,7 @@ namespace("com.subnodal.subelements.evaluator", function(exports) {
 
                 var lastChildNodeLength = 0;
 
-                for (var i = 0; i < Object.keys(rootNode.s_in).length; i++) {
+                for (var i = 0; i < Object.keys(rootNode.s_in || []).length; i++) {
                     if (rootNode.getAttribute("itervar")) {
                         scopeVariables[rootNode.getAttribute("itervar")] = i;
                     }
