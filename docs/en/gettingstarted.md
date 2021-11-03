@@ -67,7 +67,7 @@ second. Let's start by editing our HTML and replacing the contents of
 
 ```html
 <p>Hello, world!</p>
-<p>You've been on this webpage for {{ count }} seconds.
+<p>You've been on this webpage for {{ count }} seconds.</p>
 ```
 
 The clever bit: `{{ count }}` will get replaced with the value of our `count`
