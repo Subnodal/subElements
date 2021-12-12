@@ -292,16 +292,9 @@ namespace("com.subnodal.subelements.evaluator", function(exports) {
             }
 
             if (rootNode.hasAttribute("s-defer")) {
-                // var deferredSelf = rootNode.cloneNode(true);
                 var temporaryMarker = document.createElement("div");
 
                 rootNode.parentNode.replaceChild(temporaryMarker, rootNode);
-
-                // for (var key in rootNode) {
-                //     if (rootNode.hasOwnProperty(key)) {
-                //         deferredSelf[key] = rootNode[key];
-                //     }
-                // }
 
                 if (renderChildren) {
                     for (var i = 0; i < rootNode.childNodes.length; i++) {
