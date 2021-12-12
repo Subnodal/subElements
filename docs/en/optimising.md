@@ -1,6 +1,6 @@
 # Optimising Rendering
 If you find that the time it takes to render elements is very long, then it
-might be beneficial to try out some of this optimisation tips with regards to
+might be beneficial to try out some of these optimisation tips with regards to
 your HTML structure.
 
 Slow rendering times are particularly attributed to `s-for` and `s-each` loops
