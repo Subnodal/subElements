@@ -15,6 +15,9 @@ yourself):
 Check out our tutorial on using subElements with our
 [Getting Started](docs/en/gettingstarted.md) guide!
 
+If you're looking for tips on how to optimise your code, we've got [a guide for
+that](docs/en/optimising.md) too!
+
 ## Building
 To build subElements, you must have
 [subPack](https://github.com/Subnodal/subPack). If you have it, run in the main
