@@ -234,24 +234,27 @@ namespace("com.subnodal.subelements.evaluator", function(exports) {
                     rootNode.s_step = evalWithScope(rootNode.getAttribute("step") || "", scopeVariables);
                 }
 
-                rootNode.innerHTML = "";
-                renderChildren = false;
+                var fragment = document.createDocumentFragment();
 
-                var lastChildNodeLength = 0;
+                renderChildren = false;
 
                 for (var i = Number(rootNode.s_start); i < Number(rootNode.s_stop); i += Number(rootNode.s_step) || 1) {
                     if (rootNode.getAttribute("var")) {
                         scopeVariables[rootNode.getAttribute("var")] = i;
                     }
 
-                    rootNode.innerHTML += rootNode.s_innerHTML;
+                    rootNode.innerHTML = rootNode.s_innerHTML;
 
-                    for (var j = lastChildNodeLength; j < rootNode.childNodes.length; j++) {
-                        exports.evaluateTree(rootNode.childNodes[j], scopeVariables, false);
-                    }
+                    rootNode.childNodes.forEach(function(node) {
+                        exports.evaluateTree(node, scopeVariables, false);
 
-                    lastChildNodeLength = rootNode.childNodes.length;
+                        fragment.append(node.cloneNode(true));
+                    });
                 }
+
+                rootNode.innerHTML = "";
+
+                rootNode.append(fragment);
             } else if (rootNode.tagName == "S-EACH") {
                 if (rootNode.s_innerHTML == undefined) {
                     rootNode.s_innerHTML = rootNode.innerHTML;
